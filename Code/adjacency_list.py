@@ -18,6 +18,8 @@ class Graph(object):
 
     def add_vertex(self, vert):
         """Add a vertex to the graph."""
+        if self.data[vert]:
+            raise KeyError("{} is already in the Graph".format(vert))
         self.data[vert] = []
 
     def add_edge(self, from_vert, to_vert):
