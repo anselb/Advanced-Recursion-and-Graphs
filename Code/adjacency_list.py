@@ -3,8 +3,16 @@
 
 class Graph(object):
 
+    def __init__(self):
+        """Initialize a graph implemented as an adjacency list."""
+        self.data = {}
+
+    def __repr__(self):
+        """Return a string representation of this graph."""
+        return 'Graph({!r})'.format(self.data)
+
     def add_vertex(vert):
-        """Add an instance of Vertex to the graph."""
+        """Add a vertex to the graph."""
         pass
 
     def add_edge(from_vert, to_vert):
@@ -15,6 +23,7 @@ class Graph(object):
     def add_weighted_edge(from_vert, to_vert, weight):
         """Add a new, weighted, directed edge to the graph that connects
         two vertices."""
+        # NOTE: Cannot mix weighted and unweighted edges in a graph
         pass
 
     def get_vertex(vert_key):
