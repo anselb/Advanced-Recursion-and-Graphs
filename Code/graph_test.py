@@ -57,9 +57,27 @@ class GraphTest(unittest.TestCase):
         with self.assertRaises(KeyError):
             g.add_vertex('C')  # Vertex already exists
 
-
     def test_add_edge(self):
-        pass
+        g = Graph()
+        g.add_vertex('A')
+        self.assertCountEqual(g.graph['A'], [])
+        g.add_vertex('B')
+        self.assertCountEqual(g.graph['B'], [])
+        g.add_vertex('C')
+        self.assertCountEqual(g.graph['C'], [])
+        assert g.size == 3
+
+        g.add_edge('A', 'B')
+        self.assertCountEqual(g.graph['A'], ['B'])  # Item order does not matter
+        g.add_edge('A', 'C')
+        self.assertCountEqual(g.graph['A'], ['B', 'C'])  # Item order does not matter
+        g.add_edge('B', 'C')
+        self.assertCountEqual(g.graph['B'], ['C'])  # Item order does not matter
+
+        g.add_edge('B', 'D')
+        self.assertCountEqual(g.graph['B'], ['C', 'D'])  # Item order does not matter
+        g.add_edge('E', 'F')
+        self.assertCountEqual(g.graph['E'], ['F'])  # Item order does not matter
 
     def test_has_vertex(self):
         pass
