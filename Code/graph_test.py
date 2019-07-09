@@ -69,15 +69,20 @@ class GraphTest(unittest.TestCase):
 
         g.add_edge('A', 'B')
         self.assertCountEqual(g.graph['A'], ['B'])  # Item order does not matter
+        self.assertCountEqual(g.graph['B'], [])
         g.add_edge('A', 'C')
         self.assertCountEqual(g.graph['A'], ['B', 'C'])  # Item order does not matter
+        self.assertCountEqual(g.graph['C'], [])
         g.add_edge('B', 'C')
         self.assertCountEqual(g.graph['B'], ['C'])  # Item order does not matter
+        self.assertCountEqual(g.graph['C'], [])
 
         g.add_edge('B', 'D')
         self.assertCountEqual(g.graph['B'], ['C', 'D'])  # Item order does not matter
+        self.assertCountEqual(g.graph['D'], [])
         g.add_edge('E', 'F')
         self.assertCountEqual(g.graph['E'], ['F'])  # Item order does not matter
+        self.assertCountEqual(g.graph['F'], [])
 
     def test_has_vertex(self):
         pass
