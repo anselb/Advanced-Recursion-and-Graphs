@@ -11,6 +11,11 @@ class Graph(object):
         """Return a string representation of this graph."""
         return 'Graph({!r})'.format(self.data)
 
+    @property
+    def size(self):
+        """Return the size of the graph."""
+        return len(self.data)
+
     def add_vertex(self, vert):
         """Add a vertex to the graph."""
         self.data[vert] = []
