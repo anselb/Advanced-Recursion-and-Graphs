@@ -38,7 +38,25 @@ class GraphTest(unittest.TestCase):
         assert g.size == 4
 
     def test_add_vertex(self):
-        pass
+        g = Graph()
+        assert g.size == 0
+        g.add_vertex("A")
+        assert g.size == 1
+        self.assertCountEqual(g.graph["A"], [])
+        g.add_vertex("B")
+        assert g.size == 2
+        self.assertCountEqual(g.graph["B"], [])
+        g.add_vertex("C")
+        assert g.size == 3
+        self.assertCountEqual(g.graph["C"], [])
+
+        with self.assertRaises(KeyError):
+            g.add_vertex('A')  # Vertex already exists
+        with self.assertRaises(KeyError):
+            g.add_vertex('B')  # Vertex already exists
+        with self.assertRaises(KeyError):
+            g.add_vertex('C')  # Vertex already exists
+
 
     def test_add_edge(self):
         pass
