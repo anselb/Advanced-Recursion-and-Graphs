@@ -16,18 +16,18 @@ class GraphTest(unittest.TestCase):
     def test_size(self):
         g = Graph()
         assert g.size == 0
-        g.add_vertex("A")
+        g.add_vertex('A')
         assert g.size == 1
-        g.add_vertex("B")
+        g.add_vertex('B')
         assert g.size == 2
-        g.add_vertex("C")
+        g.add_vertex('C')
         assert g.size == 3
 
-        g.add_edge("A", "B")
+        g.add_edge('A', 'B')
         assert g.size == 3
-        g.add_edge("B", "C")
+        g.add_edge('B', 'C')
         assert g.size == 3
-        g.add_edge("C", "D")
+        g.add_edge('C', 'D')
         assert g.size == 4
 
         with self.assertRaises(KeyError):
@@ -40,15 +40,15 @@ class GraphTest(unittest.TestCase):
     def test_add_vertex(self):
         g = Graph()
         assert g.size == 0
-        g.add_vertex("A")
+        g.add_vertex('A')
         assert g.size == 1
-        self.assertCountEqual(g.graph["A"], [])
-        g.add_vertex("B")
+        self.assertCountEqual(g.graph['A'], [])
+        g.add_vertex('B')
         assert g.size == 2
-        self.assertCountEqual(g.graph["B"], [])
-        g.add_vertex("C")
+        self.assertCountEqual(g.graph['B'], [])
+        g.add_vertex('C')
         assert g.size == 3
-        self.assertCountEqual(g.graph["C"], [])
+        self.assertCountEqual(g.graph['C'], [])
 
         with self.assertRaises(KeyError):
             g.add_vertex('A')  # Vertex already exists
