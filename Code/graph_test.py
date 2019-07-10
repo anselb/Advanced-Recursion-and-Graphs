@@ -101,9 +101,23 @@ class GraphTest(unittest.TestCase):
         g.add_edge('D', 'E')
         assert g.has_vertex('D') is True
         assert g.has_vertex('E') is True
-        
+
     def test_get_vertices(self):
-        pass
+        g = Graph()
+        assert g.has_vertex('A') is False
+        g.add_vertex('A')
+        self.assertCountEqual(g.get_vertices(), ['A'])  # Item order does not matter
+        assert g.has_vertex('B') is False
+        g.add_vertex('B')
+        self.assertCountEqual(g.get_vertices(), ['A', 'B'])  # Item order does not matter
+        assert g.has_vertex('C') is False
+        g.add_vertex('C')
+        self.assertCountEqual(g.get_vertices(), ['A', 'B', 'C'])  # Item order does not matter
+
+        assert g.has_vertex('D') is False
+        assert g.has_vertex('E') is False
+        g.add_edge('D', 'E')
+        self.assertCountEqual(g.get_vertices(), ['A', 'B', 'C', 'D', 'E'])  # Item order does not matter
 
     def test_get_neighbors(self):
         pass
