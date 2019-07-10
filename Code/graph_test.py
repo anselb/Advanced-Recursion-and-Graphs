@@ -85,8 +85,23 @@ class GraphTest(unittest.TestCase):
         self.assertCountEqual(g.graph['F'], [])
 
     def test_has_vertex(self):
-        pass
+        g = Graph()
+        assert g.has_vertex('A') is False
+        g.add_vertex('A')
+        assert g.has_vertex('A') is True
+        assert g.has_vertex('B') is False
+        g.add_vertex('B')
+        assert g.has_vertex('B') is True
+        assert g.has_vertex('C') is False
+        g.add_vertex('C')
+        assert g.has_vertex('C') is True
 
+        assert g.has_vertex('D') is False
+        assert g.has_vertex('E') is False
+        g.add_edge('D', 'E')
+        assert g.has_vertex('D') is True
+        assert g.has_vertex('E') is True
+        
     def test_get_vertices(self):
         pass
 
