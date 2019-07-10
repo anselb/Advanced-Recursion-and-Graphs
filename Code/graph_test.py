@@ -120,7 +120,30 @@ class GraphTest(unittest.TestCase):
         self.assertCountEqual(g.get_vertices(), ['A', 'B', 'C', 'D', 'E'])  # Item order does not matter
 
     def test_get_neighbors(self):
-        pass
+        g = Graph()
+        g.add_vertex('A')
+        g.add_vertex('B')
+        g.add_vertex('C')
+        g.add_edge('A', 'B')
+        self.assertCountEqual(g.get_neighbors('A'), ['B'])  # Item order does not matter
+        self.assertCountEqual(g.get_neighbors('B'), [])
+        g.add_edge('A', 'C')
+        self.assertCountEqual(g.get_neighbors('A'), ['B', 'C'])  # Item order does not matter
+        self.assertCountEqual(g.get_neighbors('C'), [])
+
+        g.add_edge('C', 'A')
+        self.assertCountEqual(g.get_neighbors('C'), ['A'])  # Item order does not matter
+        g.add_edge('C', 'B')
+        self.assertCountEqual(g.get_neighbors('C'), ['A', 'B'])  # Item order does not matter
+
+        g.add_edge('A', 'D')
+        self.assertCountEqual(g.get_neighbors('A'), ['B', 'C', 'D'])  # Item order does not matter
+        self.assertCountEqual(g.get_neighbors('D'), [])  # Item order does not matter
+
+        with self.assertRaises(KeyError):
+            g.get_neighbors('E')  # Vertex does not exist
+        with self.assertRaises(KeyError):
+            g.get_neighbors('F')  # Vertex does not exist
 
 
 if __name__ == '__main__':
