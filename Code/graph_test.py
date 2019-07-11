@@ -84,6 +84,13 @@ class GraphTest(unittest.TestCase):
         self.assertCountEqual(g.graph['E'], ['F'])  # Item order does not matter
         self.assertCountEqual(g.graph['F'], [])
 
+        g.add_edge('A', 'C')
+        self.assertCountEqual(g.graph['A'], ['B', 'C'])  # Item order does not matter
+        self.assertCountEqual(g.graph['C'], [])
+        g.add_edge('E', 'F')
+        self.assertCountEqual(g.graph['E'], ['F'])  # Item order does not matter
+        self.assertCountEqual(g.graph['F'], [])
+
     def test_has_vertex(self):
         g = Graph()
         assert g.has_vertex('A') is False

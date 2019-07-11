@@ -20,7 +20,7 @@ class Graph(object):
         """Add a vertex to the graph."""
         if vert in self.graph:
             raise KeyError("{} is already in the Graph".format(vert))
-        self.graph[vert] = []
+        self.graph[vert] = set()
 
     def add_edge(self, from_vert, to_vert):
         """Add a new, directed edge to the graph that connects
@@ -31,7 +31,8 @@ class Graph(object):
         if to_vert not in self.graph:
             self.add_vertex(to_vert)
 
-        self.graph[from_vert].append(to_vert)
+        if to_vert not in self.graph[from_vert]:
+            self.graph[from_vert].add(to_vert)
 
     def add_weighted_edge(self, from_vert, to_vert, weight):
         """Add a new, weighted, directed edge to the graph that connects
