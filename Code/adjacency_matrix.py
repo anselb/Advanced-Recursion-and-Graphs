@@ -29,7 +29,9 @@ class Graph(object):
         for row in self.graph:
             row.append(0)
 
-        self.graph.append([0 for vertex in range(self.size)])
+        # Because vertex has not been added yet, range should account for
+        # missing vertex with a +1
+        self.graph.append([0 for vertex in range(self.size + 1)])
 
     def add_edge(self, from_vert, to_vert):
         """Add a new, directed edge to the graph that connects
@@ -44,7 +46,11 @@ class Graph(object):
         to_vert_index = self.name_to_index[to_vert]
 
         self.graph[from_vert_index][to_vert_index] = 1
-        self.graph[to_vert_index][from_vert_index] = -1
+
+        # If the to_vert is not already directed toward the from_vert, mark
+        # that the to_vert has a directed edge from the from_vert with a -1
+        if self.graph[to_vert_index][from_vert_index] != 1:
+            self.graph[to_vert_index][from_vert_index] = -1
 
     def add_weighted_edge(self, from_vert, to_vert, weight):
         """Add a new, weighted, directed edge to the graph that connects
