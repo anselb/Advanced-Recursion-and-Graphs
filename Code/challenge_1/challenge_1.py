@@ -37,29 +37,33 @@ def read_graph_file(file_name):
     if graph_type == "D":
         directed = True
     # See if graph is weighted
-    if len(edge_list[0]) == 3:
+    if len(edge_list[0].split(",")) == 3:
         weighted = True
 
     # Create graph
     graph = Graph(weighted, directed)
 
     # Add edges to graph
+    # TODO: Does not handle string vertex names or decimal weights
     for edge in edge_list:
         data = edge.split(",")
 
-        if weighted == False:
-            graph.add_edge(data[0], data[1])
+        # Call the right method
+        if weighted:
+            # Remove parenthesis from strings, and convert strings to ints
+            graph.add_weighted_edge(int(data[0][1:]), int(data[1]), int(data[2][:-1]))
         else:
-            graph.add_weighted_edge(data[0], data[1], data[2])
+            # Remove parenthesis from strings, and convert strings to ints
+            graph.add_edge(int(data[0][1:]), int(data[1][:-1]))
 
     return graph
 
 
 def print_graph_data(graph):
     """Prints out the data of the graph"""
-    print(f"# Vertices: {graph.size}\n")
-    print(f"# Edges: {len(graph.get_edge_list())}\n")
-    print("Edge List:\n")
+    print(f"# Vertices: {graph.size}")
+    print(f"# Edges: {len(graph.get_edge_list())}")
+    print("Edge List:")
     for edge in graph.get_edge_list():
         print(edge)
 
