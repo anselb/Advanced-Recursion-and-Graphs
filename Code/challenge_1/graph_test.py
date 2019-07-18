@@ -8,6 +8,8 @@ if not hasattr(unittest.TestCase, 'assertCountEqual'):
 
 
 class GraphTest(unittest.TestCase):
+    # TODO: add tests for graph types - weighted vs unweighted and
+    # directed vs undirected, and for edge lists method
 
     def test_init(self):
         g = Graph()
