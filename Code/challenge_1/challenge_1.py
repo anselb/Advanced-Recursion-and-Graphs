@@ -1,5 +1,5 @@
 from adjacency_list import Graph
-import strings
+import string
 import sys
 
 
