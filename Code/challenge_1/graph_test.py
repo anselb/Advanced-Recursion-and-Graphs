@@ -9,7 +9,7 @@ if not hasattr(unittest.TestCase, 'assertCountEqual'):
 
 class GraphTest(unittest.TestCase):
     # TODO: add tests for graph types - weighted vs unweighted and
-    # directed vs undirected, and for edge lists method
+    # directed vs undirected
 
     def test_init(self):
         g = Graph()
@@ -184,6 +184,17 @@ class GraphTest(unittest.TestCase):
             g.get_neighbors('E')  # Vertex does not exist
         with self.assertRaises(KeyError):
             g.get_neighbors('F')  # Vertex does not exist
+
+    def test_get_edge_list(self):
+        # TODO: Add more tests for this method
+        g = Graph(weighted=True, directed=False)
+
+        g.add_weighted_edge(1, 2, 10)
+        g.add_weighted_edge(1, 4, 5)
+        g.add_weighted_edge(2, 3, 5)
+        g.add_weighted_edge(2, 4, 7)
+
+        self.assertCountEqual(g.get_edge_list(), [(1,2,10), (1,4,5), (2,3,5), (2,4,7)])  # Item order does not matter
 
 
 if __name__ == '__main__':
