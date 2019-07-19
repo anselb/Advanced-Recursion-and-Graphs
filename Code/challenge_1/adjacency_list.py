@@ -2,6 +2,9 @@
 
 
 class Graph(object):
+    """ Graph Class
+    A basic implementation of a graph as an adjacency list.
+    """
 
     def __init__(self, weighted=False, directed=True):
         """Initialize a graph implemented as an adjacency list."""
