@@ -40,6 +40,7 @@ class Graph(object):
         if to_vert not in self.graph:
             self.add_vertex(to_vert)
 
+        # Make sure edge does not already exist
         if to_vert not in self.graph[from_vert]:
             self.graph[from_vert].add(to_vert)
 
@@ -63,6 +64,7 @@ class Graph(object):
         # TODO: Weights currently cannot be changed
         if to_vert not in self.graph[from_vert]:
             self.graph[from_vert].add(to_vert)
+            # If the graph is weighted, store edge weights in dictionary
             self.weights[(from_vert, to_vert)] = weight
 
             # If the graph can go both ways, add edge going opposite way
@@ -94,13 +96,19 @@ class Graph(object):
 
         for from_vert in self.graph:
             for to_vert in self.get_neighbors(from_vert):
+                # If the graph is weighted, store the edge weight in a graph
                 if self.weighted:
                     weight = self.weights[(from_vert, to_vert)]
 
+                # If the graph is directed, as to edge list as normal
                 if self.directed and self.weighted:
                     edge_list.add((from_vert, to_vert, weight))
                 if self.directed and not self.weighted:
                     edge_list.add((from_vert, to_vert))
+
+                # If the graph is undirected, make sure only one edge between
+                # two vertices is counted. My implementation stores a directed
+                # edge from and to both vertices for easier traversals.
                 if not self.directed and self.weighted:
                     if (to_vert, from_vert, weight) not in edge_list:
                         edge_list.add((from_vert, to_vert, weight))
