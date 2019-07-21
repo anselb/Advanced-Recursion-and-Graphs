@@ -82,8 +82,10 @@ class Graph(object):
         from_vert_index = self.name_to_index[from_vert]
         neighbors = set()
 
-        for index, edge in enumerate(self.graph[from_vert_index]):
-            if edge == 1:
-                neighbors.add(self.index_to_name[index])
+        for edge_index, weight in enumerate(self.graph[from_vert_index]):
+            if weight == 1:
+                for to_vert_index, vertex in enumerate(self.graph):
+                    if vertex[edge_index] == -1:
+                        neighbors.add(self.index_to_name[to_vert_index])
 
         return neighbors
