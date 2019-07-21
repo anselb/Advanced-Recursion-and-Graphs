@@ -41,12 +41,20 @@ class Graph(object):
         from_vert_index = self.name_to_index[from_vert]
         to_vert_index = self.name_to_index[to_vert]
 
-        self.graph[from_vert_index][to_vert_index] = 1
+        # If edge already exists, leave function
+        for edge_index in range(self.edge_count):
+            if self.graph[from_vert_index][edge_index] == 1:
+                if self.graph[to_vert_index][edge_index] == -1:
+                    return
 
-        # If the to_vert is not already directed toward the from_vert, mark
-        # that the to_vert has a directed edge from the from_vert with a -1
-        if self.graph[to_vert_index][from_vert_index] != 1:
-            self.graph[to_vert_index][from_vert_index] = -1
+        # Add empty edge to all vertices
+        for vertex in self.graph:
+            vertex.append(0)
+
+        self.graph[from_vert_index][self.edge_count] = 1
+        self.graph[to_vert_index][self.edge_count] = -1
+
+        self.edge_count += 1
 
     def add_weighted_edge(self, from_vert, to_vert, weight):
         """Add a new, weighted, directed edge to the graph that connects
