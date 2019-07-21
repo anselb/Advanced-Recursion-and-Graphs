@@ -51,6 +51,9 @@ class Graph(object):
     def add_weighted_edge(self, from_vert, to_vert, weight):
         """Add a new, weighted, directed edge to the graph that connects
         two vertices."""
+        # TODO: Try to handle decimals in future
+        assert isinstance(weight, int), "weight is not an int: {}".format(weight)
+
         # NOTE: Cannot mix weighted and unweighted edges in a graph
         if self.weighted is False:
             raise TypeError("Cannot call add_weighted_edge() on unweighted graph")
