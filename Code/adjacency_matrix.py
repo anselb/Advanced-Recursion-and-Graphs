@@ -4,7 +4,7 @@
 class Graph(object):
 
     def __init__(self):
-        """Initialize a graph implemented as an adjacency list."""
+        """Initialize a graph implemented as an adjacency matrix."""
         self.name_to_index = {}
         self.index_to_name = {}
         self.graph = []
