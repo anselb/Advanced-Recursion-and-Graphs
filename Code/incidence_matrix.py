@@ -4,10 +4,11 @@
 class Graph(object):
 
     def __init__(self):
-        """Initialize a graph implemented as an adjacency list."""
+        """Initialize a graph implemented as an incidence matrix."""
+        self.graph = []
         self.name_to_index = {}
         self.index_to_name = {}
-        self.graph = []
+        self.edge_count = 0
 
     def __repr__(self):
         """Return a string representation of this graph."""
@@ -26,12 +27,7 @@ class Graph(object):
         self.name_to_index[vert] = self.size
         self.index_to_name[self.size] = vert
 
-        for row in self.graph:
-            row.append(0)
-
-        # Because vertex has not been added yet, range should account for
-        # missing vertex with a +1
-        self.graph.append([0 for vertex in range(self.size + 1)])
+        self.graph.append([0 for edge in range(self.edge_count)])
 
     def add_edge(self, from_vert, to_vert):
         """Add a new, directed edge to the graph that connects
