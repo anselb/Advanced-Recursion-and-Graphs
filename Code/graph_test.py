@@ -1,7 +1,8 @@
 #!python
 
 # from adjacency_list import Graph
-from adjacency_matrix import Graph
+# from adjacency_matrix import Graph
+from incidence_matrix import Graph
 import unittest
 # Python 2 and 3 compatibility: unittest module renamed this assertion method
 if not hasattr(unittest.TestCase, 'assertCountEqual'):
