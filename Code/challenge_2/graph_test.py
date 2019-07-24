@@ -380,14 +380,23 @@ class GraphTest(unittest.TestCase):
         no_path_2 = g.find_shortest_path("X", "Z")
         self.assertEqual(no_path_2, None)
         # There is no way to traverse to the same vertex
-        no_path = g.find_shortest_path("A", "A")
-        self.assertEqual(no_path, None)
+        same_vert_path = g.find_shortest_path("A", "A")
+        self.assertEqual(same_vert_path, None)
+
+        # No path to vertex that does not have an edge directed into it
+        g.directed = True
+        # Added directed edge from 0 to A
+        g.add_edge(0, "A")
+        # Try to get 0 from A
+        no_directed_path = g.find_shortest_path("A", 0)
+        self.assertEqual(no_directed_path, None)
 
         # Error should be raised when vertex not in graph
         with self.assertRaises(KeyError):
             g.find_shortest_path("A", 1)
         with self.assertRaises(KeyError):
             g.find_shortest_path("T", "A")
+
 
 if __name__ == '__main__':
     unittest.main()
