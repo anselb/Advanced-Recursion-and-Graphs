@@ -6,3 +6,7 @@
 - Recursively define the value of an optimal solution - Take the maximum value of the recursive branches of a solution
 - Compute the value of an optimal solution (recurse and memoize) - The recursion goes through all the combinations of items that can be added to the knapsack. If the weight for the current set of items has already been calculated, return it.
 - Solve original problem by reconstructing the sub-problems - The values for possible options are calculated when the base case is reached (weight is maxed out). The max of the value added is taken at each recursive branch, so the most value that could be added is reached at the end.
+
+## Resources
+- Used [this side](https://people.sc.fsu.edu/~jburkardt/datasets/knapsack_01/knapsack_01.html) for test cases.
+- Looked at [these slides](https://docs.google.com/presentation/d/1QoK6PMX0eiJ6XEQsKa5ZkU-_EJHZ-uG1Pc6attOBkAQ/) for second solution.
