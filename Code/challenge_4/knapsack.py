@@ -1,4 +1,7 @@
-def knapsack(sack_cap, obj_weights, obj_profits, curr_sack=None, sacks=None):
+import time
+
+
+def knapsack(sack_cap, obj_weights, obj_profits, curr_sack=None, sacks=None, cache=None):
     if sacks is None:
         sacks = []
 
@@ -10,12 +13,19 @@ def knapsack(sack_cap, obj_weights, obj_profits, curr_sack=None, sacks=None):
     if curr_sack is None:
         curr_sack = []
 
+    # if cache is None:
+    #     cache = {}
+    # if str(curr_sack) in cache:
+    #     current_weight = cache[str(curr_sack)][0]
+    #     current_profit = cache[str(curr_sack)][1]
+    # else:
     current_weight = 0
     current_profit = 0
     for sack_ind in range(len(curr_sack)):
         if curr_sack[sack_ind] == 1:
             current_weight += obj_weights[sack_ind]
             current_profit += obj_profits[sack_ind]
+        # cache[str(curr_sack)] = (current_weight, current_profit)
 
     skip_sack = curr_sack[:]
     if len(curr_sack) == len(obj_weights):
@@ -24,15 +34,33 @@ def knapsack(sack_cap, obj_weights, obj_profits, curr_sack=None, sacks=None):
         keep_sack = curr_sack[:]
         keep_sack.append(1)
         keep_item_sack = knapsack(sack_cap, obj_weights, obj_profits,
-                                  keep_sack, sacks)
+                                  keep_sack, sacks, cache)
         sacks.append(keep_item_sack)
 
     skip_sack.append(0)
     skip_item_sack = knapsack(sack_cap, obj_weights, obj_profits,
-                              skip_sack, sacks)
+                              skip_sack, sacks, cache)
     sacks.append(skip_item_sack)
 
     return max(sacks)
+
+
+# Taken from CS 2.2 Dynamic Programming slides
+def other_knapsack(items, capacity):
+    if len(items) == 0 or capacity == 0:
+        return 0
+
+    item = items.pop()
+    item_cap = item[0]
+    item_val = item[1]
+
+    if item_cap > capacity:
+        return other_knapsack(items, capacity)
+
+    value_without = other_knapsack(items[:], capacity)
+    value_with = other_knapsack(items[:], capacity - item_cap) + item_val
+
+    return max(value_without, value_with)
 
 
 def main():
@@ -68,17 +96,34 @@ def main():
             optimal_indices.append(item_ind)
             optimal_value += object_profits[item_ind]
 
-    result = knapsack(sack_capacity, object_weights, object_profits)
-    result_weight = result[0]
-    result_sack = result[1]
-    result_indices = []
-    for sack_ind in range(len(result_sack)):
-        if result_sack[sack_ind] == 1:
-            result_indices.append(sack_ind)
+    # start = time.time()
+    # result = knapsack(sack_capacity, object_weights, object_profits)
+    # finish = time.time()
+    # result_weight = result[0]
+    # result_sack = result[1]
+    # result_indices = []
+    # for sack_ind in range(len(result_sack)):
+    #     if result_sack[sack_ind] == 1:
+    #         result_indices.append(sack_ind)
+
+    # print(f"Optimal weight: {optimal_value}, got: {result_weight}")
+    # print(f"Optimal items: {optimal_indices}, got: {result_indices}")
+    # print(f"Matches?: {optimal_indices == result_indices}")
+    # print(f"Finished in {finish - start} seconds")
+
+    item_tuples = []
+    for item_ind in range(len(object_weights)):
+        tup = (object_weights[item_ind], object_profits[item_ind])
+        item_tuples.append(tup)
+
+    start = time.time()
+    result = other_knapsack(item_tuples, sack_capacity)
+    finish = time.time()
+    result_weight = result
 
     print(f"Optimal weight: {optimal_value}, got: {result_weight}")
-    print(f"Optimal items: {optimal_indices}, got: {result_indices}")
-    print(f"Matches?: {optimal_indices == result_indices}")
+    print(f"Matches?: {optimal_value == result_weight}")
+    print(f"Finished in {finish - start} seconds")
 
 
 if __name__ == '__main__':
