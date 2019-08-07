@@ -96,34 +96,39 @@ def main():
             optimal_indices.append(item_ind)
             optimal_value += object_profits[item_ind]
 
-    # start = time.time()
-    # result = knapsack(sack_capacity, object_weights, object_profits)
-    # finish = time.time()
-    # result_weight = result[0]
-    # result_sack = result[1]
-    # result_indices = []
-    # for sack_ind in range(len(result_sack)):
-    #     if result_sack[sack_ind] == 1:
-    #         result_indices.append(sack_ind)
-
-    # print(f"Optimal weight: {optimal_value}, got: {result_weight}")
-    # print(f"Optimal items: {optimal_indices}, got: {result_indices}")
-    # print(f"Matches?: {optimal_indices == result_indices}")
-    # print(f"Finished in {finish - start} seconds")
-
-    item_tuples = []
-    for item_ind in range(len(object_weights)):
-        tup = (object_weights[item_ind], object_profits[item_ind])
-        item_tuples.append(tup)
-
     start = time.time()
-    result = other_knapsack(item_tuples, sack_capacity)
+    result = knapsack(sack_capacity, object_weights, object_profits)
     finish = time.time()
-    result_weight = result
+    result_weight = result[0]
+    result_sack = result[1]
+    result_indices = []
+    for sack_ind in range(len(result_sack)):
+        if result_sack[sack_ind] == 1:
+            result_indices.append(sack_ind)
 
+    print("For this input:")
+    print(f"Object weights: {object_weights}")
+    print(f"Object values: {object_profits}")
+    print(f"Capacity of knapsack: {sack_capacity}")
+    print("\n")
     print(f"Optimal weight: {optimal_value}, got: {result_weight}")
-    print(f"Matches?: {optimal_value == result_weight}")
+    print(f"Optimal items: {optimal_indices}, got: {result_indices}")
+    print(f"Matches?: {optimal_indices == result_indices}")
     print(f"Finished in {finish - start} seconds")
+
+    # item_tuples = []
+    # for item_ind in range(len(object_weights)):
+    #     tup = (object_weights[item_ind], object_profits[item_ind])
+    #     item_tuples.append(tup)
+    #
+    # start = time.time()
+    # result = other_knapsack(item_tuples, sack_capacity)
+    # finish = time.time()
+    # result_weight = result
+    #
+    # print(f"Optimal weight: {optimal_value}, got: {result_weight}")
+    # print(f"Matches?: {optimal_value == result_weight}")
+    # print(f"Finished in {finish - start} seconds")
 
 
 if __name__ == '__main__':
