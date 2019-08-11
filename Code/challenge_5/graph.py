@@ -589,6 +589,15 @@ class Graph:
             # The graph is not Eulerian
             return False
 
+        # Check all vertices in self for their degree
+        for vertex in self:
+            # If a vertex has an odd degree, the graph is not Eulerian
+            if len(vertex.get_neighbors()) % 2 == 1:
+                return False
+
+        # If all vertices have an even degree, the graph is Eulerian
+        return True
+
 
 # Driver code
 if __name__ == "__main__":
