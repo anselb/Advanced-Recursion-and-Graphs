@@ -522,13 +522,40 @@ class Graph:
         # After all neighors checked, return the clique
         return clique
 
-    def is_eulerian(self):
+    def is_connected(self):
+        """Return if this graph is connected."""
+        # Need to check all vertices to see if connected
+        all_vertices = self.get_vertices()
+
+        # Empty graph is unconnected
+        if len(all_vertices) == 0:
+            return False
+
+        # Get a vertex for depth first search, this vertex is connected
+        start_vert = all_vertices.pop()
+        # Use depth first search to mark if vertices have a connection
+        self.depth_first_search(start_vert)
+
+        # In a connected graph, all vertices will have parent after DFS
+        for vert in all_vertices:
+            # If a vertex does not have a parent, the graph is not connected
+            if vert.parent is None:
+                # Return False if graph is not connected
+                return False
+
+        # If none of the vertices are not connected, the graph is connected
+        return True
+
+    def is_eulerian(self, is_connected=True):
         """Return if this undirected graph is an Eulerian Cycle."""
         # Raise error if called when graph is directed
         if self.directed:
             raise TypeError("is_eulerian can't be called on directed graph")
 
-        pass
+        # If the graph needs to be connected, but it is not,
+        if is_connected and not self.is_connected():
+            # The graph is not Eulerian
+            return False
 
 
 # Driver code
