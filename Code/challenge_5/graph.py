@@ -581,6 +581,9 @@ class Graph:
         if all_vert_keys == actual_vert_keys:
             # the graph is connected
             return True
+        # Handles case where loop never enters (only 1 edge)
+        else:
+            return False
 
     def is_eulerian(self, is_connected=True):
         """Return if this undirected graph is an Eulerian Cycle."""
