@@ -531,6 +531,10 @@ class Graph:
         # Need to check all edges to see if connected
         all_edges = deque(self.get_edge_list())
 
+        # If the graph only has one vertex, it is connected
+        if self.num_vertices == 1:
+            return True
+
         # If there are no edges, the graph is not connected
         if len(all_edges) == 0:
             return False
