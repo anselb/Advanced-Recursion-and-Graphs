@@ -523,28 +523,60 @@ class Graph:
         return clique
 
     def is_connected(self):
-        """Return if this graph is connected."""
-        # Need to check all vertices to see if connected
-        all_vertices = self.get_vertices()
+        """Return if this graph is connected.
 
-        # Empty graph is unconnected
-        if len(all_vertices) == 0:
+        Use edge list to check if directed graph is connected.
+        Edge list will also handle if undirected graph is connected.
+        """
+        # Need to check all edges to see if connected
+        all_edges = deque(self.get_edge_list())
+
+        # If there are no edges, the graph is not connected
+        if len(all_edges) == 0:
             return False
 
-        # Get a vertex for depth first search, this vertex is connected
-        start_vert = all_vertices.pop()
-        # Use depth first search to mark if vertices have a connection
-        self.depth_first_search(start_vert)
+        # Get all vertex keys to check that they are all connected
+        all_vert_keys = set(self.vert_list.keys())
+        # The actual keys of the connected vertices
+        # A key will not show up if it has 0 degree
+        actual_vert_keys = set()
 
-        # In a connected graph, all vertices will have parent after DFS
-        for vert in all_vertices:
-            # If a vertex does not have a parent, the graph is not connected
-            if vert.parent is None:
-                # Return False if graph is not connected
+        # Initialize actual_vert_keys with the vertices of a random edge
+        start_edge = all_edges.popleft()
+        actual_vert_keys.add(start_edge[0])
+        actual_vert_keys.add(start_edge[1])
+
+        # Edge counter will track if anymore edges could have new vertices
+        edge_counter = 0
+        # While there are still edges to check,
+        while len(all_edges) > 0:
+            # Get the edge and vertices at the start of the queue
+            edge = all_edges.popleft()
+            from_vert = edge[0]
+            to_vert = edge[1]
+
+            # Check if one vertex key is inside the set of connected keys
+            if from_vert in actual_vert_keys or to_vert in actual_vert_keys:
+                # If a key is already inside, both vertices are connected
+                actual_vert_keys.add(from_vert)
+                actual_vert_keys.add(to_vert)
+                # Since a new vertex was added, all other edges could be added
+                edge_counter = 0
+            else:
+                # If no vertices can be added now, they could be added later
+                # Add edge to the back of the queue
+                all_edges.append(edge)
+                # Keep track of number of edges with verts that can't be added
+                edge_counter += 1
+
+            # If no more vertices can be added, the graph is not connected
+            if edge_counter > len(all_edges):
                 return False
 
-        # If none of the vertices are not connected, the graph is connected
-        return True
+        # If all edges have been checked, and all keys are here,
+        if all_vert_keys == actual_vert_keys:
+            # the graph is connected
+            return True
 
     def is_eulerian(self, is_connected=True):
         """Return if this undirected graph is an Eulerian Cycle."""
