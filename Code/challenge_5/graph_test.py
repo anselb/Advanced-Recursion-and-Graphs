@@ -679,7 +679,7 @@ class GraphTest(unittest.TestCase):
         with self.assertRaises(TypeError):
             a = Graph(weighted=False, directed=True)
             a.add_vertex("A")
-            g.find_maximal_clique("A", least_first=False)
+            a.find_maximal_clique("A", least_first=False)
         # Error should be raised when vertex not in graph
         g.directed = False
         v_y = Vertex("Y")
@@ -742,7 +742,41 @@ class GraphTest(unittest.TestCase):
         self.assertEqual(d.is_connected(), True)
 
     def test_is_eulerian(self):
-        pass
+        # Empty graph is not Eularian
+        g = Graph(weighted=False, directed=False)
+        self.assertEqual(g.is_eulerian(), False)
+
+        # Graph with lonely vertex is Eularian
+        g.add_vertex('A')
+        self.assertEqual(g.is_eulerian(), True)
+
+        # Graph with separate subgraphs is not Eularian
+        g.add_edge('A', 'B')
+        g.add_edge('B', 'C')
+        g.add_edge('C', 'A')
+        g.add_edge('D', 'E')
+        g.add_edge('E', 'F')
+        g.add_edge('F', 'D')
+        self.assertEqual(g.is_eulerian(), False)
+        # Graph with separate subgraphs may be considered weakly Eularian
+        self.assertEqual(g.is_eulerian(is_connected=False), True)
+
+        # Graph with two vertices having odd degree is not Eularian
+        g.add_edge('C', 'D')
+        self.assertEqual(g.is_eulerian(), False)
+        # Graph with all vertices having equal degree is Eularian
+        g.add_edge('C', 'G')
+        g.add_edge('D', 'G')
+        self.assertEqual(g.is_eulerian(), True)
+
+        # Shoud raise error if calling is_eulerian on directed graph
+        with self.assertRaises(TypeError):
+            g.directed = True
+            g.is_eulerian()
+        with self.assertRaises(TypeError):
+            d = Graph(weighted=False, directed=True)
+            d.add_vertex("A")
+            d.is_eulerian(is_connected=False)
 
 
 if __name__ == '__main__':
