@@ -689,6 +689,61 @@ class GraphTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             g.find_maximal_clique(v_z, least_first=False)
 
+    def test_is_connected(self):
+        # Empty graph is not connected
+        g = Graph(weighted=False, directed=False)
+        self.assertEqual(g.is_connected(), False)
+
+        # Graph with lonely vertex is connected
+        g.add_vertex('A')
+        self.assertEqual(g.is_connected(), True)
+
+        # Graph with lonely vertices is not connected
+        g.add_vertex('B')
+        self.assertEqual(g.is_connected(), False)
+        g.add_vertex('C')
+        self.assertEqual(g.is_connected(), False)
+        g.add_vertex('D')
+        self.assertEqual(g.is_connected(), False)
+
+        # Graph with separate subgraphs is not connected
+        g.add_edge('A', 'B')
+        self.assertEqual(g.is_connected(), False)
+        g.add_edge('C', 'D')
+        self.assertEqual(g.is_connected(), False)
+
+        # Graph becomes connected when subgraphs are connected
+        g.add_edge('A', 'D')
+        self.assertEqual(g.is_connected(), True)
+
+        # Directed graph with no vertex is not connected
+        d = Graph(weighted=False, directed=True)
+        self.assertEqual(d.is_connected(), False)
+        # Directed graph with lonely vertex is connected
+        d.add_vertex('A')
+        self.assertEqual(d.is_connected(), True)
+
+        # Directed graph with lonely vertices is not connected
+        d.add_vertex('B')
+        self.assertEqual(d.is_connected(), False)
+        d.add_vertex('C')
+        self.assertEqual(d.is_connected(), False)
+        d.add_vertex('D')
+        self.assertEqual(d.is_connected(), False)
+
+        # Directed graph with separate subgraphs is not connected
+        d.add_edge('A', 'B')
+        self.assertEqual(d.is_connected(), False)
+        d.add_edge('C', 'D')
+        self.assertEqual(d.is_connected(), False)
+
+        # Directed graph with "mother vertex" is connected
+        d.add_edge('B', 'C')
+        self.assertEqual(d.is_connected(), True)
+
+    def test_is_eulerian(self):
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()
